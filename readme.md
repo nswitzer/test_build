@@ -1,5 +1,9 @@
 # Paragon
 
+## Deployment
+
+Deployed and built by Circle CI!!
+
 ## Git workflow
 
 This project uses our standard single master branch workflow with date based tag releases. https://elevatedthird.github.io/docs/docs_git_workflow.html
