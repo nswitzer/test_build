@@ -40,15 +40,28 @@ jobs:
       enabled: true
     steps:
       - run:
-        name: Push built files to artifact repo
-        command: echo "Deploying to artifiact repo"
+        name: Configure git user email
         command: git config --global user.email "circle@test.com"
+      -run:
+        name: Configure git user name
         command: git config --global user.name "circle_user"
+      -run:
+        name: Add Artifact repo as new remote
         command: git remote add artifact git@github.com:nswitzer/test_artifacts.git
+      -run:
+        name: Fetch artifact repo
         command: git fetch artifact
+      -run:
+        name: Remove .git directories from artifact directories
         command: find ./* -type d | grep .git | xargs rm -rf
+      -run:
+        name: Add new files to git
         command: git add .
+      -run:
+        name: Commit built assets to artifact repo
         command: git commit -am "Built assets."
+      -run:
+        name: Push updates to artifact repo
         command: git push artifact master -f --tags
 
 workflows:
