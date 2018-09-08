@@ -40,6 +40,9 @@ jobs:
       enabled: true
     steps:
       - run:
+          name: Change to git directory
+          command: cd ~/repo
+      - run:
           name: Configure git user email
           command: git config --global user.email "circle@test.com"
       - run:
