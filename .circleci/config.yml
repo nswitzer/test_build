@@ -1,0 +1,52 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/php:7.1.5-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mysql:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
+
+  deploy:
+    steps:
+      -run:
+        command:
+          - echo "Deploying to artifiact repo"
+          - git config --global user.email "circle@test.com"
+          - git config --global user.name "circle_user"
+          - git remote add artifact git@github.com:nswitzer/test_artifacts.git
+          - git fetch artifact
+          # Remove any .git directories that may exist in vendor libraries* so those
+          # libraries don't get excluded from our repo. Remember kiddies somedir/*
+          # returns all files/dirs that are NOT dot (hidden). This protects our repos'
+          # .git folder from being blown away.
+          - find ./* -type d | grep .git | xargs rm -rf
+          - git add .
+          - git commit -am "Built assets."
+          - git push artifact master -f --tags
