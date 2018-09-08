@@ -40,20 +40,17 @@ jobs:
       enabled: true
     steps:
       - run:
-        command:
-          - echo "Deploying to artifiact repo"
-          - git config --global user.email "circle@test.com"
-          - git config --global user.name "circle_user"
-          - git remote add artifact git@github.com:nswitzer/test_artifacts.git
-          - git fetch artifact
-          # Remove any .git directories that may exist in vendor libraries* so those
-          # libraries don't get excluded from our repo. Remember kiddies somedir/*
-          # returns all files/dirs that are NOT dot (hidden). This protects our repos'
-          # .git folder from being blown away.
-          - find ./* -type d | grep .git | xargs rm -rf
-          - git add .
-          - git commit -am "Built assets."
-          - git push artifact master -f --tags
+        name: Push built files to artifact repo
+        command: |
+          echo "Deploying to artifiact repo"
+          git config --global user.email "circle@test.com"
+          git config --global user.name "circle_user"
+          git remote add artifact git@github.com:nswitzer/test_artifacts.git
+          git fetch artifact
+          find ./* -type d | grep .git | xargs rm -rf
+          git add .
+          git commit -am "Built assets."
+          git push artifact master -f --tags
 
 workflows:
   version: 2
