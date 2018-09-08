@@ -35,13 +35,6 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
-  deploy:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Change to git directory
-          command: cd ~/repo
       - run:
           name: Configure git user email
           command: git config --global user.email "circle@test.com"
@@ -55,6 +48,9 @@ jobs:
           name: Fetch artifact repo
           command: git fetch artifact
       - run:
+          name: Update .gitignore for artifact repo push
+          command: sed -i '1,/######## ARTIFACT IGNORE ABOVE ########/d' .gitignore
+      - run:
           name: Remove .git directories from artifact directories
           command: find ./* -type d | grep .git | xargs rm -rf
       - run:
@@ -66,15 +62,3 @@ jobs:
       - run:
           name: Push updates to artifact repo
           command: git push artifact master -f --tags
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
