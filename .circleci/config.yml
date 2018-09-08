@@ -42,25 +42,25 @@ jobs:
       - run:
         name: Configure git user email
         command: git config --global user.email "circle@test.com"
-      -run:
+      - run:
         name: Configure git user name
         command: git config --global user.name "circle_user"
-      -run:
+      - run:
         name: Add Artifact repo as new remote
         command: git remote add artifact git@github.com:nswitzer/test_artifacts.git
-      -run:
+      - run:
         name: Fetch artifact repo
         command: git fetch artifact
-      -run:
+      - run:
         name: Remove .git directories from artifact directories
         command: find ./* -type d | grep .git | xargs rm -rf
-      -run:
+      - run:
         name: Add new files to git
         command: git add .
-      -run:
+      - run:
         name: Commit built assets to artifact repo
         command: git commit -am "Built assets."
-      -run:
+      - run:
         name: Push updates to artifact repo
         command: git push artifact master -f --tags
 
