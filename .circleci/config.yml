@@ -41,16 +41,15 @@ jobs:
     steps:
       - run:
         name: Push built files to artifact repo
-        command: |
-          echo "Deploying to artifiact repo"
-          git config --global user.email "circle@test.com"
-          git config --global user.name "circle_user"
-          git remote add artifact git@github.com:nswitzer/test_artifacts.git
-          git fetch artifact
-          find ./* -type d | grep .git | xargs rm -rf
-          git add .
-          git commit -am "Built assets."
-          git push artifact master -f --tags
+        command: echo "Deploying to artifiact repo"
+        command: git config --global user.email "circle@test.com"
+        command: git config --global user.name "circle_user"
+        command: git remote add artifact git@github.com:nswitzer/test_artifacts.git
+        command: git fetch artifact
+        command: find ./* -type d | grep .git | xargs rm -rf
+        command: git add .
+        command: git commit -am "Built assets."
+        command: git push artifact master -f --tags
 
 workflows:
   version: 2
