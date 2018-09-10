@@ -43,10 +43,10 @@ jobs:
           command: git config --global user.name "circle_user"
       - run:
           name: Add Artifact repo as new remote
-          command: git remote add artifact git@github.com:nswitzer/test_artifacts.git
+          command: git remote add acquia comcastmts@svn-2744.devcloud.hosting.acquia.com:comcastmts.git
       - run:
           name: Fetch artifact repo
-          command: git fetch artifact
+          command: git fetch acquia
       - run:
           name: Update .gitignore for artifact repo push
           command: "sed -i '1,/######## ARTIFACT IGNORE ABOVE ########/d' .gitignore"
@@ -61,4 +61,4 @@ jobs:
           command: git commit -am "Built assets."
       - run:
           name: Push updates to artifact repo
-          command: git push artifact master -f --tags
+          command: git push acquia master -f --tags
