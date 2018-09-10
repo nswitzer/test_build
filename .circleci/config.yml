@@ -46,7 +46,7 @@ jobs:
           command: git remote add acquia comcastmts@svn-2744.devcloud.hosting.acquia.com:comcastmts.git
       - run:
           name: Fetch artifact repo
-          command: git fetch acquia
+          command: git fetch acquia --yes
       - run:
           name: Update .gitignore for artifact repo push
           command: "sed -i '1,/######## ARTIFACT IGNORE ABOVE ########/d' .gitignore"
