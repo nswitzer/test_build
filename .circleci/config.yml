@@ -49,7 +49,7 @@ jobs:
           command: git remote add artifact testartifact@svn-3239.devcloud.hosting.acquia.com:testartifact.git
       - run:
           name: Fetch artifact repo
-          command: yes "yes" | git fetch artifact
+          command: git fetch artifact
       - run:
           name: Checkout build branch
           command: git checkout --track -b build-master artifact/build-master
