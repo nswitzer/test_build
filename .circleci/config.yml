@@ -42,6 +42,9 @@ jobs:
           name: Configure git user name
           command: git config --global user.name "circle_user"
       - run:
+          name: Avoid hosts unknown for Acquia
+          command: mkdir ~/.ssh/ && echo -e "Host svn-2744.devcloud.hosting.acquia.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
           name: Add Artifact repo as new remote
           command: git remote add artifact comcastmts@svn-2744.devcloud.hosting.acquia.com:comcastmts.git
       - run:
