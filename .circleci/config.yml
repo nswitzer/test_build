@@ -43,13 +43,16 @@ jobs:
           command: git config --global user.name "circle_user"
       - run:
           name: Avoid hosts unknown for Acquia
-          command: echo -e "Host svn-2744.devcloud.hosting.acquia.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          command: echo -e "Host svn-3239.devcloud.hosting.acquia.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Add Artifact repo as new remote
-          command: git remote add artifact comcastmts@svn-2744.devcloud.hosting.acquia.com:comcastmts.git
+          command: git remote add artifact testartifact@svn-3239.devcloud.hosting.acquia.com:testartifact.git
       - run:
           name: Fetch artifact repo
           command: yes "yes" | git fetch artifact
+      - run:
+          name: Checkout build branch
+          command: git checkout --track -b build-master artifact/build-master
       - run:
           name: Update .gitignore for artifact repo push
           command: "sed -i '1,/######## ARTIFACT IGNORE ABOVE ########/d' .gitignore"
@@ -64,4 +67,4 @@ jobs:
           command: git commit -am "Built assets."
       - run:
           name: Push updates to artifact repo
-          command: git push artifact master -f --tags
+          command: git push artifact build-master -f --tags
