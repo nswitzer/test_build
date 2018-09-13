@@ -5,6 +5,8 @@
 /docroot/modules/contrib/
 /docroot/themes/contrib/
 /docroot/profiles/contrib/
+/docroot/themes/custom/themekit/dist
+/docroot/themes/custom/themekit/node_modules
 
 ######## ARTIFACT IGNORE ABOVE ########
 

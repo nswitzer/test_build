@@ -35,6 +35,10 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
+      -run:
+          name: Build frontend artifacts
+          command: cd docroot/themes/custom/themekit && npm install && npm run build
+
       - run:
           name: Configure git user email
           command: git config --global user.email "circle@test.com"
