@@ -35,7 +35,7 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
-      -run:
+      - run:
           name: Build frontend artifacts
           command: cd docroot/themes/custom/themekit && npm install && npm run build
 
